@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
+import { Location } from './features/location/Location'
 import './App.css';
 
 function App() {
@@ -51,6 +52,9 @@ function App() {
           </a>
         </span>
       </header>
+      <main>
+        <Location />
+      </main>
     </div>
   );
 }
