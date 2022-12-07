@@ -2,21 +2,28 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentLocation: 'Fort Worth',
+  gpsLocation: '',
   currentWeather: [],
   status: 'idle',
   error: null
 }
 
-export const fetchWeatherData = createAsyncThunk('', async (state) => {
+export const fetchWeatherData = createAsyncThunk('', async (locationData) => {
   try {
-    const response = await fetch('https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=62559260c941ebf6fd752e2570f6c760', {mode: 'cors'});
+    console.log(locationData);
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${locationData.latitude}&lon=${locationData.longitude}&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
     const weatherData = await response.json();
-    console.log(weatherData);
     return weatherData;
-    // state.currentWeather = weatherData;
-    // console.log(state.currentWeather)
   } catch(err) {
-    console.error('FUOOKIN WHOOPS')
+    console.error('There was an error fetching current weather data')
+  }
+
+})
+
+export const getUserLocation = createAsyncThunk('', async (state) => {
+  try {
+  } catch(err) {
+    console.error("There was an error fetching user's GPS location");
   }
 
 })
@@ -34,9 +41,6 @@ export const locationSlice = createSlice({
       // immutable state based off those changes
       state.currentLocation = action.payload;
     },
-    // updateCurrentWeather: (state, action) => {
-    //   state.currentWeather = action.payload;
-    // },
   },
   extraReducers(builder) {
     builder

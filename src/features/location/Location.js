@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  submitLocation,
-  fetchWeatherData,
-  currentLocation,
-} from './locationSlice';
+import { submitLocation, fetchWeatherData, currentLocation } from './locationSlice';
 
 export const Location = ({ weather }) => {
     const location = useSelector(currentLocation);
@@ -18,13 +14,34 @@ export const Location = ({ weather }) => {
         setTypedLocation(e.target.value);
     }
 
+    const getUserGpsLocation = () => {
+        return navigator.geolocation.getCurrentPosition(userGpsSuccessCallback, userGpsErrorCallback);
+    }
+
+    const userGpsSuccessCallback = (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        dispatch(fetchWeatherData({latitude: lat, longitude: lon}));
+    }
+    
+    const userGpsErrorCallback = (error) => {
+        console.error(error);
+    }
+
+    const updateCurrentWeather = () => {
+        dispatch(submitLocation(typedLocation));
+        dispatch(fetchWeatherData());
+    }
+
     useEffect(() => {
-        if (locationStatus === 'idle')
-        dispatch(fetchWeatherData())
+        if (locationStatus === 'idle') {
+            getUserGpsLocation();
+        }
+        // dispatch(fetchWeatherData())
         // return () => {
         //     cleanup
         // };
-    }, [location, dispatch, locationStatus]);
+    });
 
     let pageContent = () => {
         if (locationStatus === 'idle') {
@@ -49,25 +66,25 @@ export const Location = ({ weather }) => {
                 <main>
                     <h1>Status: Data Received!</h1>
                     <h2>{location}</h2>
-                    <div class="location-container">
-                        <div class="measurement-container">
-                            <button id="metric" class="button_measurement" type="button">C</button>
-                            <button id="imperial" class="button_measurement-selected" type="button">F</button>
+                    <div className="location-container">
+                        <div className="measurement-container">
+                            <button id="metric" className="button_measurement" type="button">C</button>
+                            <button id="imperial" className="button_measurement-selected" type="button">F</button>
                         </div>
                         <label>
-                            <input class="input_location" placeholder="Choose Location" onChange={handleInputChange} />
+                            <input className="input_location" placeholder="Choose Location" onChange={handleInputChange} />
                         </label>
-                        <button class="submit_location" type="button" onClick={() => dispatch(submitLocation(typedLocation))}>Update<i class="fas fa-arrow-right"></i></button>        
+                        <button className="submit_location" type="button" onClick={updateCurrentWeather}>Update<i className="fas fa-arrow-right"></i></button>        
                     </div>    
-                    <div class="current-weather-container-primary">
-                        <span class="current-conditions">{currentWeather.weather[0].main}</span>
-                        <span class="current-city">{currentWeather.name}</span>
-                        <span class="current-temperature">{currentWeather.main.temp}</span>
+                    <div className="current-weather-container-primary">
+                        <span className="current-conditions">{currentWeather.weather[0].main}</span>
+                        <span className="current-city">{currentWeather.name}</span>
+                        <span className="current-temperature">{currentWeather.main.temp}</span>
                     </div>
-                    <div class="current-weather-container-secondary">
-                        <span class="current-feel">{currentWeather.main.feels_like}</span>
-                        <span class="current-humidity">{currentWeather.main.humidity}</span>
-                        <span class="current-wind">{currentWeather.wind.speed}</span>
+                    <div className="current-weather-container-secondary">
+                        <span className="current-feel">{currentWeather.main.feels_like}</span>
+                        <span className="current-humidity">{currentWeather.main.humidity}</span>
+                        <span className="current-wind">{currentWeather.wind.speed}</span>
                     </div>
                 </main>
             )
@@ -84,5 +101,4 @@ export const Location = ({ weather }) => {
             {pageContent()}
         </div>
     );
-  }
-  
+  }  
