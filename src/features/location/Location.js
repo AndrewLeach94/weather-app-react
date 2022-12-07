@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { submitLocation, fetchWeatherData, currentLocation } from './locationSlice';
+import { submitLocation, fetchWeatherData, currentLocation, fetchLocationCoordinates } from './locationSlice';
 
 export const Location = ({ weather }) => {
     const location = useSelector(currentLocation);
@@ -28,10 +28,17 @@ export const Location = ({ weather }) => {
         console.error(error);
     }
 
-    const updateCurrentWeather = () => {
-        dispatch(submitLocation(typedLocation));
-        dispatch(fetchWeatherData());
-    }
+    const fetchLocationCoordinates = async (locationRequest) => {
+        try {
+          const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${locationRequest}&limit=5&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
+          const locationData = await response.json();
+          const filteredLocation = locationData.filter(locations => locations.name === locationRequest)[0];
+          dispatch(fetchWeatherData({latitude: filteredLocation.lat, longitude: filteredLocation.lon}));
+        } catch(err) {
+          console.error("There was an error fetching location coordinates");
+        }
+      
+      }      
 
     useEffect(() => {
         if (locationStatus === 'idle') {
@@ -74,7 +81,7 @@ export const Location = ({ weather }) => {
                         <label>
                             <input className="input_location" placeholder="Choose Location" onChange={handleInputChange} />
                         </label>
-                        <button className="submit_location" type="button" onClick={updateCurrentWeather}>Update<i className="fas fa-arrow-right"></i></button>        
+                        <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation)}>Update<i className="fas fa-arrow-right"></i></button>        
                     </div>    
                     <div className="current-weather-container-primary">
                         <span className="current-conditions">{currentWeather.weather[0].main}</span>
