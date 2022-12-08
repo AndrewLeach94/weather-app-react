@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchWeatherData } from './locationSlice';
@@ -9,8 +8,19 @@ export const Location = ({ weather }) => {
     const currentWeather = useSelector(state => state.location.currentWeather);
     const error = useSelector(state => state.location.error);
     const dispatch = useDispatch();
+    
     const [typedLocation, setTypedLocation] = useState('');
     const [defaultToggle, setDefaultToggle] = useState('addDefault');
+    const [viewing, setViewing] = useState('currentWeather');
+
+    const toggleCurrentWeather = () => {
+      setViewing('currentWeather');
+    }
+  
+    const toggleDailyForecast = () => {
+      setViewing('dailyForecast');
+    }
+  
     
     const handleInputChange = (e) => {
         setTypedLocation(e.target.value);
@@ -23,7 +33,7 @@ export const Location = ({ weather }) => {
     const userGpsSuccessCallback = (position) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
-        dispatch(fetchWeatherData({latitude: lat, longitude: lon}));
+        dispatch(fetchWeatherData({latitude: lat, longitude: lon, units: 'imperial'}));
     }
     
     const userGpsErrorCallback = (error) => {
@@ -56,14 +66,13 @@ export const Location = ({ weather }) => {
     useEffect(() => {
         if (localStorage.defaultLocation !== undefined && locationStatus === 'idle') {
             fetchLocationCoordinates(localStorage.defaultLocation);
-            setDefaultToggle('removeDefault');
+            return () => {
+                setDefaultToggle('removeDefault');
+            };    
         }
         else if (locationStatus === 'idle') {
             getUserGpsLocation();
         }
-        // return () => {
-        //     cleanup
-        // };
     });
 
     let pageContent = () => {
@@ -84,19 +93,9 @@ export const Location = ({ weather }) => {
                 <h1>Status: Pending</h1>
             )
         } 
-        else if (locationStatus === 'completed') {
+        else if (locationStatus === 'completed' && viewing === 'currentWeather') {
             return(
-                <main>
-                    <div className="location-container">
-                        <div className="measurement-container">
-                            <button id="metric" className="button_measurement" type="button">C</button>
-                            <button id="imperial" className="button_measurement-selected" type="button">F</button>
-                        </div>
-                        <label>
-                            <input className="input_location" placeholder="Choose Location" onChange={handleInputChange} />
-                        </label>
-                        <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation)}>Update<i className="fas fa-arrow-right"></i></button>        
-                    </div>    
+                <div className="current-weather-parent">
                     <div className="current-weather-container-primary">
                         <div className="current-conditions">{currentWeather.weatherType}</div>
                         <div className="current-city">{currentWeather.name}</div>
@@ -107,11 +106,14 @@ export const Location = ({ weather }) => {
                         <div className="current-stat">Humidity: {currentWeather.humidity}%</div>
                         <div className="current-stat">Wind: {currentWeather.windSpeed} mph</div>
                     </div>
-                    <button onClick={() => toggleLocationDefault()}>{defaultToggle === 'addDefault' ? 'Save as Default Location' : 'Remove Default Location'}</button>
-                    <p>Status: Data Received!</p>
-                </main>
+                </div>
             )
         } 
+        else if (locationStatus === 'completed' && viewing === 'dailyForecast') {
+            return(
+                <h1>Hourly Forecast</h1>
+            )
+        }
         
         else {
             return(error);
@@ -120,8 +122,23 @@ export const Location = ({ weather }) => {
         
   
     return (
-        <div>            
+        <main>
+            <nav>
+                <button onClick={toggleCurrentWeather}>Current Weather</button>
+                <button onClick={toggleDailyForecast}>10 Day Forecast</button>
+            <button onClick={() => toggleLocationDefault()}>{defaultToggle === 'addDefault' ? 'Save as Default Location' : 'Remove Default Location'}</button>
+            </nav>
+            <div className="location-container">
+                <div className="measurement-container">
+                    <button id="metric" className="button_measurement" type="button">C</button>
+                    <button id="imperial" className="button_measurement-selected" type="button">F</button>
+                </div>
+                <label>
+                    <input className="input_location" placeholder="Choose Location" onChange={handleInputChange} />
+                </label>
+                <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation)}>Update<i className="fas fa-arrow-right"></i></button>        
+            </div>
             {pageContent()}
-        </div>
+        </main>
     );
   }  

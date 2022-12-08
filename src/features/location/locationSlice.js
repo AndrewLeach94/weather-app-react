@@ -5,12 +5,12 @@ const initialState = {
   // defaultLocation: '',
   gpsLocation: '',
   currentWeather: [],
+  dailyForecast: [],
   status: 'idle',
   error: null
 }
 
 export const fetchWeatherData = createAsyncThunk('', async (locationData) => {
-  console.log(locationData)
   try {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${locationData.latitude}&lon=${locationData.longitude}&units=${locationData.units}&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
       const weatherData = await response.json();

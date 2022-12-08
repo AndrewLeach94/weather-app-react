@@ -27,10 +27,8 @@ button {
 }
 
 main {
-  display: flex;
-  align-items: center;
   height: 100vh;
-  padding-left: 140px;
+  margin-left: 140px;
 
 }
 
@@ -56,9 +54,7 @@ main {
 }
 
 .location-container {
-  position: absolute;
-  top: 0;
-  margin-top: 60px;
+  margin-top: 2rem;
 }
 
 .input_location {
@@ -124,13 +120,22 @@ input::placeholder {
 }
 
 .current-weather-container-primary {
-  margin-right: 20px;
+  margin-right: 2rem;
+}
+
+.current-weather-parent {
+  display: flex;
+  margin-top: 6rem;
 }
 
 .current-weather-container-secondary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   font-family: var(--font_secondary);
   border-left: solid 3px #f5f5f54d;
   padding-left: 30px;
+  
 }
 
 .current-temperature {
