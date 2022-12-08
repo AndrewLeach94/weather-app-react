@@ -1,14 +1,16 @@
+import { render } from '@testing-library/react';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { submitLocation, fetchWeatherData, currentLocation, fetchLocationCoordinates } from './locationSlice';
+import { fetchWeatherData } from './locationSlice';
 
 export const Location = ({ weather }) => {
-    const location = useSelector(currentLocation);
+    const currentLocation = useSelector(state => state.location.currentLocation);
     const locationStatus = useSelector(state => state.location.status);
     const currentWeather = useSelector(state => state.location.currentWeather);
     const error = useSelector(state => state.location.error);
     const dispatch = useDispatch();
     const [typedLocation, setTypedLocation] = useState('');
+    const [defaultToggle, setDefaultToggle] = useState('addDefault');
     
     const handleInputChange = (e) => {
         setTypedLocation(e.target.value);
@@ -33,18 +35,33 @@ export const Location = ({ weather }) => {
           const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${locationRequest}&limit=5&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
           const locationData = await response.json();
           const filteredLocation = locationData.filter(locations => locations.name === locationRequest)[0];
+          console.table(filteredLocation)
           dispatch(fetchWeatherData({latitude: filteredLocation.lat, longitude: filteredLocation.lon}));
         } catch(err) {
           console.error("There was an error fetching location coordinates");
         }
       
-      }      
+      }
+    const toggleLocationDefault = () => {
+        if (defaultToggle === 'addDefault') {
+            localStorage.setItem('defaultLocation', currentLocation);
+            // dispatch(setLocationDefault(currentLocation));
+            setDefaultToggle('removeDefault');
+        } else {
+            localStorage.removeItem('defaultLocation');
+            // dispatch(setLocationDefault(''));
+            setDefaultToggle('addDefault');
+        }
+    }
 
     useEffect(() => {
-        if (locationStatus === 'idle') {
+        if (localStorage.defaultLocation !== undefined && locationStatus === 'idle') {
+            fetchLocationCoordinates(localStorage.defaultLocation);
+            setDefaultToggle('removeDefault');
+        }
+        else if (locationStatus === 'idle') {
             getUserGpsLocation();
         }
-        // dispatch(fetchWeatherData())
         // return () => {
         //     cleanup
         // };
@@ -72,7 +89,7 @@ export const Location = ({ weather }) => {
             return(
                 <main>
                     <h1>Status: Data Received!</h1>
-                    <h2>{location}</h2>
+                    <h2>{currentLocation}</h2>
                     <div className="location-container">
                         <div className="measurement-container">
                             <button id="metric" className="button_measurement" type="button">C</button>
@@ -93,6 +110,7 @@ export const Location = ({ weather }) => {
                         <span className="current-humidity">{currentWeather.main.humidity}</span>
                         <span className="current-wind">{currentWeather.wind.speed}</span>
                     </div>
+                    <button onClick={() => toggleLocationDefault()}>{defaultToggle === 'addDefault' ? 'Save as Default Location' : 'Remove Default Location'}</button>
                 </main>
             )
         } 
