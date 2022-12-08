@@ -35,7 +35,6 @@ export const Location = ({ weather }) => {
           const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${locationRequest}&limit=5&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
           const locationData = await response.json();
           const filteredLocation = locationData.filter(locations => locations.name === locationRequest)[0];
-          console.table(filteredLocation)
           dispatch(fetchWeatherData({latitude: filteredLocation.lat, longitude: filteredLocation.lon}));
         } catch(err) {
           console.error("There was an error fetching location coordinates");
@@ -99,14 +98,14 @@ export const Location = ({ weather }) => {
                         <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation)}>Update<i className="fas fa-arrow-right"></i></button>        
                     </div>    
                     <div className="current-weather-container-primary">
-                        <div className="current-conditions">{currentWeather.weather[0].main}</div>
+                        <div className="current-conditions">{currentWeather.weatherType}</div>
                         <div className="current-city">{currentWeather.name}</div>
-                        <div className="current-temperature">{currentWeather.main.temp}</div>
+                        <div className="current-temperature">{currentWeather.temperature}</div>
                     </div>
                     <div className="current-weather-container-secondary">
-                        <span className="current-feel">{currentWeather.main.feels_like}</span>
-                        <span className="current-humidity">{currentWeather.main.humidity}</span>
-                        <span className="current-wind">{currentWeather.wind.speed}</span>
+                        <span className="current-feel">{currentWeather.feelsLike}</span>
+                        <span className="current-humidity">{currentWeather.humidity}</span>
+                        <span className="current-wind">{currentWeather.windSpeed}</span>
                     </div>
                     <button onClick={() => toggleLocationDefault()}>{defaultToggle === 'addDefault' ? 'Save as Default Location' : 'Remove Default Location'}</button>
                     <p>Status: Data Received!</p>

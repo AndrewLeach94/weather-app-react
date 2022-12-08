@@ -13,14 +13,41 @@ export const fetchWeatherData = createAsyncThunk('', async (locationData) => {
   try {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${locationData.latitude}&lon=${locationData.longitude}&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
       const weatherData = await response.json();
-      console.log(weatherData)
-      return weatherData;
+      console.log(convertWeatherData(weatherData));
+      return convertWeatherData(weatherData);
   } catch(err) {
     console.error('There was an error fetching current weather data')
   }
-
 })
 
+const convertWeatherData = (weatherData) => {
+    const formatTemperature = (temperature) => {
+      //temperature needs to be rounded to closest whole number
+      const roundTemperature = (() => Math.round(temperature))();
+      return roundTemperature;
+    };
+  
+    const formatFeelsLike = (feel) => {
+      //temperature needs to be rounded to closest whole number
+      const roundTemperature = (() => Math.round(feel))();
+      return roundTemperature;
+    };
+  
+    const formatWind = (wind) => {
+      //temperature needs to be rounded to closest whole number
+      const roundSpeed= (() => Math.round(wind))();
+      return roundSpeed;
+    }
+
+    const name =  weatherData.name;
+    const temp =  formatTemperature(weatherData.main.temp);
+    const feelsLike =  formatFeelsLike(weatherData.main.feels_like);
+    const humidity =  weatherData.main.humidity;
+    const weatherType =  weatherData.weather[0].main;
+    const windSpeed =  formatWind(weatherData.wind.speed);
+
+    return {name: name, temperature: temp, feelsLike: feelsLike, humidity: humidity, weatherType: weatherType, windSpeed: windSpeed};
+}
 
 export const locationSlice = createSlice({
   name: 'location',
