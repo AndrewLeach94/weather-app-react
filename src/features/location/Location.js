@@ -6,20 +6,21 @@ export const Location = ({ weather }) => {
     const currentLocation = useSelector(state => state.location.currentLocation);
     const locationStatus = useSelector(state => state.location.status);
     const currentWeather = useSelector(state => state.location.currentWeather);
-    const forecast = useSelector(state => state.location.forecast);
+    const forecasts = useSelector(state => state.location.forecasts);
     const error = useSelector(state => state.location.error);
+    const defaultLocation = localStorage.defaultLocation;
     const dispatch = useDispatch();
     
     const [typedLocation, setTypedLocation] = useState('');
     const [defaultToggle, setDefaultToggle] = useState('addDefault');
     const [viewing, setViewing] = useState('currentWeather');
 
-    const toggleCurrentWeather = () => {
+    const toggleCurrentWeatherView = () => {
       setViewing('currentWeather');
     }
   
-    const toggleDailyForecast = () => {
-      setViewing('dailyForecast');
+    const toggleForecastView = () => {
+      setViewing('hourlyForecast');
     }
   
     
@@ -110,10 +111,22 @@ export const Location = ({ weather }) => {
                 </main>
             )
         } 
-        else if (locationStatus === 'completed' && viewing === 'dailyForecast') {
+        else if (locationStatus === 'completed' && viewing === 'hourlyForecast') {
+            const listForecast = forecasts.map(forecast =>
+                    <li key={`Forecast-${forecast.id}`} className="forecast_item-parent">
+                        <div key={`Date-${forecast.id}`}>{forecast.date}</div>
+                        <div className="forecast_item-temp-container">
+                            <div className="forecast_item-temp" key={`Temp-${forecast.id}`}>{forecast.temp}°</div>
+                            <div className="forecast_item-conditions" key={`Weather-${forecast.id}`}>{forecast.weatherType}</div>
+                        </div>
+                    </li>
+                )
             return(
                 <main>
                     <h1>Hourly Forecast</h1>
+                    <ul className="forecast_table">
+                        {listForecast}
+                    </ul>
                 </main>
             )
         }
@@ -126,20 +139,33 @@ export const Location = ({ weather }) => {
   
     return (
         <div>
-            <nav>
-                <button onClick={toggleCurrentWeather}>Current Weather</button>
-                <button onClick={toggleDailyForecast}>10 Day Forecast</button>
-            <button onClick={() => toggleLocationDefault()}>{defaultToggle === 'addDefault' ? 'Save as Default Location' : 'Remove Default Location'}</button>
-            </nav>
+            <div className="save-location-container">
+                <button className="button_default-location-inactive" onClick={() => toggleLocationDefault()}>{defaultToggle === 'addDefault' ? 'Save as Default Location' : 'Remove Default Location'}</button>
+                <div className="button_default-subtext">{defaultLocation !== undefined ? `Currently: ${defaultLocation}` : ''}</div>
+            </div>
             <div className="location-container">
                 <div className="measurement-container">
                     <button id="metric" className="button_measurement" type="button">C</button>
                     <button id="imperial" className="button_measurement-selected" type="button">F</button>
                 </div>
-                <label>
-                    <input className="input_location" placeholder="Choose Location" onChange={handleInputChange} />
-                </label>
-                <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation)}>Update<i className="fas fa-arrow-right"></i></button>        
+                <div className="input_container">
+                    <label>
+                        <input className="input_location" placeholder="Choose Location" onChange={handleInputChange} />
+                    </label>
+                    <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation)}>Update<i className="fas fa-arrow-right"></i></button>
+                </div>
+                <nav>
+                    <button 
+                        className={`button_tab ${viewing === 'currentWeather' ? 'button_tab-active' : ''}`} 
+                        onClick={toggleCurrentWeatherView}>
+                        Current Weather
+                    </button>
+                    <button 
+                        className={`button_tab ${viewing === 'hourlyForecast' ? 'button_tab-active' : ''}`}
+                        onClick={toggleForecastView}>
+                        Hourly Forecast
+                    </button>
+                </nav>    
             </div>
             {pageContent()}
         </div>

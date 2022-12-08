@@ -5,7 +5,7 @@ const initialState = {
   // defaultLocation: '',
   gpsLocation: '',
   currentWeather: [],
-  forecast: [],
+  forecasts: [],
   status: 'idle',
   error: null
 }
@@ -45,16 +45,18 @@ const convertWeatherData = (currentWeatherData, forecastData) => {
   const formatHourlyForecast = (forecast) => {
     const formatData = () => {
       let formattedData = [];
-      forecast.forEach(element => {
+      forecast.forEach((element, index) => {
         formattedData.push({
           temp: formatTemperature(element.main.temp),
           weatherType: element.weather[0].main,
-          date: element.dt_txt
+          date: element.dt_txt,
+          id: index
         });
       })
       return formattedData;
     }
     const formattedData = formatData(forecast);
+    console.log(formattedData);
     return formattedData;
   }
 
@@ -98,9 +100,9 @@ export const locationSlice = createSlice({
     })
     .addCase(fetchWeatherData.fulfilled, (state, action) => {
       state.status = 'completed'
-      state.currentLocation = action.payload.name
+      state.currentLocation = action.payload.currentWeather.name
       state.currentWeather = action.payload.currentWeather
-      state.forecast = action.payload.forecast
+      state.forecasts = action.payload.forecast
     })
     .addCase(fetchWeatherData.rejected, (state, action) => {
       state.status = 'failed'

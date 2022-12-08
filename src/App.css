@@ -6,6 +6,8 @@ html, body {
 
 :root {
   --font_primary: 'Cabin', sans-serif;
+  --white: whitesmoke;
+  --grey: #3e3e3e;
   /* --background_sunny: linear-gradient(144deg, rgba(0, 107, 193, 0.85) 0%, rgba(255,255,255,0.55) 70%), url(images/sunny.webp);
   --background_cloudy: linear-gradient(144deg, rgba(11,11,11,0.8) 0%, rgba(255,255,255,0.4) 80%), url(images/clouds.webp);
   --background_rainy: linear-gradient(144deg, rgba(11,11,11,0.80) 0%, rgba(255,255,255, 0.6) 100%), url(images/rain.webp);
@@ -16,7 +18,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
   font-family: var(--font_primary);
-  color: whitesmoke;
+  color: var(--white);
   /* background: var(--background_sunny); */
   background: black;
 }
@@ -24,6 +26,13 @@ body {
 button {
   cursor: pointer;
   outline: none;
+  color: var(--white);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .App {
@@ -52,8 +61,13 @@ button {
   margin-bottom: 20px;
 }
 
+.input_container {
+  margin-bottom: 2rem;
+}
+
 .location-container {
   margin-top: 2rem;
+  margin-bottom: 3rem;
 }
 
 .input_location {
@@ -66,13 +80,29 @@ button {
   border-bottom: solid 2px #f5f5f54d;
 }
 
+.save-location-container {
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  text-align: center;
+}
+
+.button_default-location-inactive {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.button_default-subtext {
+  font-weight: 200;
+}
+
 input::placeholder {
   color: #f5f5f57d;
 }
 
 .button_measurement {
   font-size: 1rem;
-  color: whitesmoke;
   text-align: center;
   background: none;
   border-radius: 50%;
@@ -82,16 +112,25 @@ input::placeholder {
   margin-right: 20px;
 }
 
+.button_tab {
+  background: transparent;
+  border: none;
+  padding-bottom: 0.5rem;
+}
+
+.button_tab-active {
+  border-bottom: solid 1px var(--grey);
+}
+
 .button_measurement:hover {
-  border: solid 2px #f5f5f552;
+  border: solid 2px var(--grey);
 }
 
 .button_measurement-selected {
   font-size: 1rem;
-  color: whitesmoke;
   text-align: center;
   background: none;
-  border: solid 2px whitesmoke;
+  border: solid 2px var(--white);
   border-radius: 50%;
   height: 35px;
   width: 35px;
@@ -102,7 +141,6 @@ input::placeholder {
   background: none;
   border: none;
   font-size: 1.3rem;
-  color: whitesmoke;
   transition: .4s;
 }
 
@@ -131,7 +169,6 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-family: var(--font_secondary);
   border-left: solid 3px #f5f5f54d;
   padding-left: 30px;
   
@@ -161,24 +198,21 @@ input::placeholder {
   font-size: 3.1rem;
 }
 
-aside {
-  font-size: 1rem;
-  position: absolute;
+.forecast_item-parent {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  top: 0;
-  right: 0;
-  width: 10%;
-  height: 20%;
-  background-color: #2b2b2b;
-  padding-right: 20px;
-  padding-top: 20px;
-  margin: auto;
-  color: black;
-  clip-path: polygon(50% 0, 100% 0, 100% 75%, 0px 0);
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.75rem;
 }
 
+.forecast_item-temp {
+  font-size: 1.8rem;
+}
+
+.forecast_table {
+  max-width: 50vw;
+  margin-bottom: 2rem;
+}
 /* ------------------------------- ANIMATIONS  -------------------------------------------- */
 
 @keyframes fadeIn {
