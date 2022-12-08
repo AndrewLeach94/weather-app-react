@@ -10,10 +10,10 @@ const initialState = {
 }
 
 export const fetchWeatherData = createAsyncThunk('', async (locationData) => {
+  console.log(locationData)
   try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${locationData.latitude}&lon=${locationData.longitude}&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${locationData.latitude}&lon=${locationData.longitude}&units=${locationData.units}&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
       const weatherData = await response.json();
-      console.log(convertWeatherData(weatherData));
       return convertWeatherData(weatherData);
   } catch(err) {
     console.error('There was an error fetching current weather data')

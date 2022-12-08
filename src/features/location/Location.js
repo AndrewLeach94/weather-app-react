@@ -35,11 +35,11 @@ export const Location = ({ weather }) => {
           const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${locationRequest}&limit=5&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
           const locationData = await response.json();
           const filteredLocation = locationData.filter(locations => locations.name === locationRequest)[0];
-          dispatch(fetchWeatherData({latitude: filteredLocation.lat, longitude: filteredLocation.lon}));
+          dispatch(fetchWeatherData({latitude: filteredLocation.lat, longitude: filteredLocation.lon, units: 'imperial'}));
         } catch(err) {
           console.error("There was an error fetching location coordinates");
         }
-      
+
       }
     const toggleLocationDefault = () => {
         if (defaultToggle === 'addDefault') {
@@ -100,12 +100,12 @@ export const Location = ({ weather }) => {
                     <div className="current-weather-container-primary">
                         <div className="current-conditions">{currentWeather.weatherType}</div>
                         <div className="current-city">{currentWeather.name}</div>
-                        <div className="current-temperature">{currentWeather.temperature}</div>
+                        <div className="current-temperature">{currentWeather.temperature}°</div>
                     </div>
                     <div className="current-weather-container-secondary">
-                        <span className="current-feel">{currentWeather.feelsLike}</span>
-                        <span className="current-humidity">{currentWeather.humidity}</span>
-                        <span className="current-wind">{currentWeather.windSpeed}</span>
+                        <div className="current-stat">Feels Like: {currentWeather.feelsLike}°</div>
+                        <div className="current-stat">Humidity: {currentWeather.humidity}%</div>
+                        <div className="current-stat">Wind: {currentWeather.windSpeed} mph</div>
                     </div>
                     <button onClick={() => toggleLocationDefault()}>{defaultToggle === 'addDefault' ? 'Save as Default Location' : 'Remove Default Location'}</button>
                     <p>Status: Data Received!</p>

@@ -143,6 +143,10 @@ input::placeholder {
   margin: 0;
 }
 
+.current-stat {
+  margin-bottom: 0.75rem;
+}
+
 .current-conditions {
   font-size: 1.7rem;
   margin: 0;
