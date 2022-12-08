@@ -88,8 +88,6 @@ export const Location = ({ weather }) => {
         else if (locationStatus === 'completed') {
             return(
                 <main>
-                    <h1>Status: Data Received!</h1>
-                    <h2>{currentLocation}</h2>
                     <div className="location-container">
                         <div className="measurement-container">
                             <button id="metric" className="button_measurement" type="button">C</button>
@@ -101,9 +99,9 @@ export const Location = ({ weather }) => {
                         <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation)}>Update<i className="fas fa-arrow-right"></i></button>        
                     </div>    
                     <div className="current-weather-container-primary">
-                        <span className="current-conditions">{currentWeather.weather[0].main}</span>
-                        <span className="current-city">{currentWeather.name}</span>
-                        <span className="current-temperature">{currentWeather.main.temp}</span>
+                        <div className="current-conditions">{currentWeather.weather[0].main}</div>
+                        <div className="current-city">{currentWeather.name}</div>
+                        <div className="current-temperature">{currentWeather.main.temp}</div>
                     </div>
                     <div className="current-weather-container-secondary">
                         <span className="current-feel">{currentWeather.main.feels_like}</span>
@@ -111,6 +109,7 @@ export const Location = ({ weather }) => {
                         <span className="current-wind">{currentWeather.wind.speed}</span>
                     </div>
                     <button onClick={() => toggleLocationDefault()}>{defaultToggle === 'addDefault' ? 'Save as Default Location' : 'Remove Default Location'}</button>
+                    <p>Status: Data Received!</p>
                 </main>
             )
         } 
