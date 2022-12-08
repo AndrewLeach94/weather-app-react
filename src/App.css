@@ -26,10 +26,9 @@ button {
   outline: none;
 }
 
-main {
+.App {
   height: 100vh;
   margin-left: 140px;
-
 }
 
 .loading-animation-container {

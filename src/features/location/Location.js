@@ -6,6 +6,7 @@ export const Location = ({ weather }) => {
     const currentLocation = useSelector(state => state.location.currentLocation);
     const locationStatus = useSelector(state => state.location.status);
     const currentWeather = useSelector(state => state.location.currentWeather);
+    const forecast = useSelector(state => state.location.forecast);
     const error = useSelector(state => state.location.error);
     const dispatch = useDispatch();
     
@@ -95,7 +96,7 @@ export const Location = ({ weather }) => {
         } 
         else if (locationStatus === 'completed' && viewing === 'currentWeather') {
             return(
-                <div className="current-weather-parent">
+                <main className="current-weather-parent">
                     <div className="current-weather-container-primary">
                         <div className="current-conditions">{currentWeather.weatherType}</div>
                         <div className="current-city">{currentWeather.name}</div>
@@ -106,12 +107,14 @@ export const Location = ({ weather }) => {
                         <div className="current-stat">Humidity: {currentWeather.humidity}%</div>
                         <div className="current-stat">Wind: {currentWeather.windSpeed} mph</div>
                     </div>
-                </div>
+                </main>
             )
         } 
         else if (locationStatus === 'completed' && viewing === 'dailyForecast') {
             return(
-                <h1>Hourly Forecast</h1>
+                <main>
+                    <h1>Hourly Forecast</h1>
+                </main>
             )
         }
         
@@ -122,7 +125,7 @@ export const Location = ({ weather }) => {
         
   
     return (
-        <main>
+        <div>
             <nav>
                 <button onClick={toggleCurrentWeather}>Current Weather</button>
                 <button onClick={toggleDailyForecast}>10 Day Forecast</button>
@@ -139,6 +142,6 @@ export const Location = ({ weather }) => {
                 <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation)}>Update<i className="fas fa-arrow-right"></i></button>        
             </div>
             {pageContent()}
-        </main>
+        </div>
     );
   }  

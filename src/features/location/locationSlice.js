@@ -5,48 +5,81 @@ const initialState = {
   // defaultLocation: '',
   gpsLocation: '',
   currentWeather: [],
-  dailyForecast: [],
+  forecast: [],
   status: 'idle',
   error: null
 }
 
 export const fetchWeatherData = createAsyncThunk('', async (locationData) => {
   try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${locationData.latitude}&lon=${locationData.longitude}&units=${locationData.units}&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
-      const weatherData = await response.json();
-      return convertWeatherData(weatherData);
+      const currentWeatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${locationData.latitude}&lon=${locationData.longitude}&units=${locationData.units}&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
+      const currentWeatherData = await currentWeatherResponse.json();
+      const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${locationData.latitude}&lon=${locationData.longitude}&units=${locationData.units}&cnt=8&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
+      const forecastData = await forecastResponse.json();
+
+      return convertWeatherData(currentWeatherData, forecastData);
   } catch(err) {
     console.error('There was an error fetching current weather data')
   }
 })
 
-const convertWeatherData = (weatherData) => {
-    const formatTemperature = (temperature) => {
-      //temperature needs to be rounded to closest whole number
-      const roundTemperature = (() => Math.round(temperature))();
-      return roundTemperature;
-    };
-  
-    const formatFeelsLike = (feel) => {
-      //temperature needs to be rounded to closest whole number
-      const roundTemperature = (() => Math.round(feel))();
-      return roundTemperature;
-    };
-  
-    const formatWind = (wind) => {
-      //temperature needs to be rounded to closest whole number
-      const roundSpeed= (() => Math.round(wind))();
-      return roundSpeed;
+const convertWeatherData = (currentWeatherData, forecastData) => {
+  const formatTemperature = (temperature) => {
+    //temperature needs to be rounded to closest whole number
+    const roundTemperature = (() => Math.round(temperature))();
+    return roundTemperature;
+  };
+
+  const formatFeelsLike = (feel) => {
+    //temperature needs to be rounded to closest whole number
+    const roundTemperature = (() => Math.round(feel))();
+    return roundTemperature;
+  };
+
+  const formatWind = (wind) => {
+    //temperature needs to be rounded to closest whole number
+    const roundSpeed= (() => Math.round(wind))();
+    return roundSpeed;
+  }
+
+  const formatHourlyForecast = (forecast) => {
+    const formatData = () => {
+      let formattedData = [];
+      forecast.forEach(element => {
+        formattedData.push({
+          temp: formatTemperature(element.main.temp),
+          weatherType: element.weather[0].main,
+          date: element.dt_txt
+        });
+      })
+      return formattedData;
     }
+    const formattedData = formatData(forecast);
+    return formattedData;
+  }
 
-    const name =  weatherData.name;
-    const temp =  formatTemperature(weatherData.main.temp);
-    const feelsLike =  formatFeelsLike(weatherData.main.feels_like);
-    const humidity =  weatherData.main.humidity;
-    const weatherType =  weatherData.weather[0].main;
-    const windSpeed =  formatWind(weatherData.wind.speed);
 
-    return {name: name, temperature: temp, feelsLike: feelsLike, humidity: humidity, weatherType: weatherType, windSpeed: windSpeed};
+  const name =  currentWeatherData.name;
+  const temp =  formatTemperature(currentWeatherData.main.temp);
+  const feelsLike =  formatFeelsLike(currentWeatherData.main.feels_like);
+  const humidity =  currentWeatherData.main.humidity;
+  const weatherType =  currentWeatherData.weather[0].main;
+  const windSpeed =  formatWind(currentWeatherData.wind.speed);
+  const formattedForecastData = formatHourlyForecast(forecastData.list);
+
+  console.log(formattedForecastData);
+
+  return {
+    currentWeather: {
+      name: name, 
+      temperature: temp, 
+      feelsLike: feelsLike, 
+      humidity: humidity, 
+      weatherType: weatherType, 
+      windSpeed: windSpeed
+    },
+    forecast: formattedForecastData
+  };
 }
 
 export const locationSlice = createSlice({
@@ -66,7 +99,8 @@ export const locationSlice = createSlice({
     .addCase(fetchWeatherData.fulfilled, (state, action) => {
       state.status = 'completed'
       state.currentLocation = action.payload.name
-      state.currentWeather = action.payload
+      state.currentWeather = action.payload.currentWeather
+      state.forecast = action.payload.forecast
     })
     .addCase(fetchWeatherData.rejected, (state, action) => {
       state.status = 'failed'
