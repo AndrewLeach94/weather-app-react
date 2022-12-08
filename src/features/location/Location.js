@@ -123,7 +123,6 @@ export const Location = ({ weather }) => {
                 )
             return(
                 <main>
-                    <h1>Hourly Forecast</h1>
                     <ul className="forecast_table">
                         {listForecast}
                     </ul>

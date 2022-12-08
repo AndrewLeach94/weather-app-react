@@ -7,11 +7,11 @@ html, body {
 :root {
   --font_primary: 'Cabin', sans-serif;
   --white: whitesmoke;
-  --grey: #3e3e3e;
-  /* --background_sunny: linear-gradient(144deg, rgba(0, 107, 193, 0.85) 0%, rgba(255,255,255,0.55) 70%), url(images/sunny.webp);
+  --grey: #f5f5f54d;
+  --background_sunny: linear-gradient(144deg, rgba(0, 107, 193, 0.85) 0%, rgba(255,255,255,0.35) 85%), url(images/sunny.webp);
   --background_cloudy: linear-gradient(144deg, rgba(11,11,11,0.8) 0%, rgba(255,255,255,0.4) 80%), url(images/clouds.webp);
   --background_rainy: linear-gradient(144deg, rgba(11,11,11,0.80) 0%, rgba(255,255,255, 0.6) 100%), url(images/rain.webp);
-  --background_snowy: linear-gradient(144deg, rgba(11,11,11,0.8) 0%, rgba(255,255,255, 0.8) 95%), url(images/snow.webp); */
+  --background_snowy: linear-gradient(144deg, rgba(11,11,11,0.8) 0%, rgba(255,255,255, 0.8) 95%), url(images/snow.webp);
 }
 
 body {
@@ -19,8 +19,8 @@ body {
   line-height: 1.5;
   font-family: var(--font_primary);
   color: var(--white);
-  /* background: var(--background_sunny); */
-  background: black;
+  background: var(--background_sunny);
+  background-attachment: fixed;
 }
 
 button {
@@ -36,8 +36,7 @@ ul {
 }
 
 .App {
-  height: 100vh;
-  margin-left: 140px;
+  margin-left: 8.75rem;
 }
 
 .loading-animation-container {
@@ -66,8 +65,7 @@ ul {
 }
 
 .location-container {
-  margin-top: 2rem;
-  margin-bottom: 3rem;
+  margin: 2rem 0 3rem 0;
 }
 
 .input_location {
@@ -77,7 +75,7 @@ ul {
   height: 50px;
   background: none;
   border: none;
-  border-bottom: solid 2px #f5f5f54d;
+  border-bottom: solid 2px var(--grey);
 }
 
 .save-location-container {
@@ -116,10 +114,12 @@ input::placeholder {
   background: transparent;
   border: none;
   padding-bottom: 0.5rem;
+  margin-right: 1.75rem;
 }
 
 .button_tab-active {
   border-bottom: solid 1px var(--grey);
+  font-weight: 600;
 }
 
 .button_measurement:hover {
@@ -169,7 +169,7 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-left: solid 3px #f5f5f54d;
+  border-left: solid 3px var(--grey);
   padding-left: 30px;
   
 }
@@ -199,9 +199,11 @@ input::placeholder {
 }
 
 .forecast_item-parent {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  border-bottom: solid 1px var(--grey);
+  display: flex;
+  padding-bottom: 1.5rem;
+  justify-content: space-between;
   margin-bottom: 2.75rem;
 }
 
