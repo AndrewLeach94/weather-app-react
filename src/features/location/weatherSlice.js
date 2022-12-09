@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentLocation: 'Fort Worth',
-  // defaultLocation: '',
   gpsLocation: '',
   currentWeather: [],
   forecasts: [],
@@ -84,12 +83,7 @@ const convertWeatherData = (currentWeatherData, forecastData) => {
 export const locationSlice = createSlice({
   name: 'location',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
-  reducers: {
-    // setLocationDefault: (state, action) => {
-    //   state.defaultLocation = action.payload;
-    // },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
     .addCase(fetchWeatherData.pending, (state, action) => {
@@ -108,8 +102,6 @@ export const locationSlice = createSlice({
   }
 });
 
-// Action creators are generated for each case reducer function
-// export const { setLocationDefault } = locationSlice.actions
 export const currentLocation = (state) => state.weather.currentLocation;
 
 export default locationSlice.reducer;
