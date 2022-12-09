@@ -74,7 +74,7 @@ ul {
 }
 
 .measurement-container {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .input_container {
@@ -265,7 +265,7 @@ li:last-child {
       font-size: 0.75rem;
   }
   .App-body {
-    margin: 0rem 2rem;
+    padding: 0rem 2rem;
   }
   h1 {
     font-size: 2rem;
@@ -288,6 +288,10 @@ li:last-child {
     margin-bottom: 4rem;
   }
 
+  .save-location-container {
+    font-size: 1rem;
+  }
+
   nav {
     display: flex;
     justify-content: center;
@@ -304,5 +308,9 @@ li:last-child {
   .forecast_table {
     max-width: 100%;
     margin-top: 5rem;
+  }
+
+  .measurement-container {
+    margin-bottom: 3rem;
   }
 }
