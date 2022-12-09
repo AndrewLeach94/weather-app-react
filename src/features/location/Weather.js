@@ -38,7 +38,7 @@ export const Weather = () => {
     const userGpsSuccessCallback = (position) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
-        dispatch(fetchWeatherData({latitude: lat, longitude: lon, units: 'imperial'}));
+        dispatch(fetchWeatherData({latitude: lat, longitude: lon, units: preferredUnits}));
     }
     
     const userGpsErrorCallback = (error) => {
@@ -77,7 +77,7 @@ export const Weather = () => {
 
     useEffect(() => {
         if (localStorage.defaultLocation !== undefined && locationStatus === 'idle') {
-            fetchLocationCoordinates(localStorage.defaultLocation);
+            fetchLocationCoordinates(localStorage.defaultLocation, preferredUnits);
             return () => {
                 setDefaultToggle('removeDefault');
             };    
