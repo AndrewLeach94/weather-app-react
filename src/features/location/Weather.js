@@ -8,7 +8,6 @@ export const Weather = () => {
     const locationStatus = useSelector(state => state.weather.status);
     const currentWeather = useSelector(state => state.weather.currentWeather);
     const forecasts = useSelector(state => state.weather.forecasts);
-
     const error = useSelector(state => state.weather.error);
     const defaultLocation = localStorage.defaultLocation;
     const dispatch = useDispatch();
@@ -17,6 +16,7 @@ export const Weather = () => {
     const [defaultToggle, setDefaultToggle] = useState('addDefault');
     const [viewing, setViewing] = useState('currentWeather');
     const [preferredUnits, setPreferredUnits] = useState('imperial');
+    const [weatherBackground, setWeatherBackground] = useState('sunny');
 
     const toggleCurrentWeatherView = () => {
       setViewing('currentWeather');
@@ -70,10 +70,34 @@ export const Weather = () => {
         setPreferredUnits('metric');
         fetchLocationCoordinates(currentLocation, 'metric');
     }
+
     const convertToImperial = () => {
         setPreferredUnits('imperial');
         fetchLocationCoordinates(currentLocation, 'imperial');
     }
+
+    const handleWeatherTheme = () => {
+        const theme = currentWeather.weatherType;
+        if (theme === 'Clouds' ) {
+            setWeatherBackground('cloudy') 
+        }
+        else if (theme === 'Rain'){
+            setWeatherBackground('rainy') 
+        }
+        else if (theme === 'Mist'){
+            setWeatherBackground('rainy') 
+        }
+        else if (theme === 'Fog'){
+            setWeatherBackground('cloudy') 
+        }
+        else if (theme === 'Snow') {
+            setWeatherBackground('snowy') 
+        }
+        else {
+            setWeatherBackground('sunny') 
+        }
+    }
+
 
     useEffect(() => {
         if (localStorage.defaultLocation !== undefined && locationStatus === 'idle') {
@@ -82,9 +106,10 @@ export const Weather = () => {
                 setDefaultToggle('removeDefault');
             };    
         }
-        else if (locationStatus === 'idle') {
+        if (locationStatus === 'idle') {
             getUserGpsLocation();
         }
+        handleWeatherTheme();
     });
 
     let pageContent = () => {
@@ -132,8 +157,8 @@ export const Weather = () => {
                     </li>
                 )
             return(
-                <main className="forecast_table">
-                    <ul>
+                <main className="forecast_container">
+                    <ul className="forecast_item-table">
                         {listForecast}
                     </ul>
                 </main>
@@ -147,7 +172,7 @@ export const Weather = () => {
         
   
     return (
-        <div>
+        <div className={`App-body ${weatherBackground}`}>
             <div className="save-location-container">
                 <button className="button_default-location-inactive" onClick={() => toggleLocationDefault()}>{defaultToggle === 'addDefault' ? 'Save as Default Location' : 'Remove Default Location'}</button>
                 <div className="button_default-subtext">
