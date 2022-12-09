@@ -47,7 +47,7 @@ export const Weather = () => {
 
     const fetchLocationCoordinates = async (locationRequest, units) => {
         try {
-          const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${locationRequest}&limit=5&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
+          const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${locationRequest}&limit=5&appid=62559260c941ebf6fd752e2570f6c760`, {mode: 'cors'});
           const locationData = await response.json();
           const filteredLocation = locationData.filter(locations => locations.name === locationRequest)[0];
           dispatch(fetchWeatherData({latitude: filteredLocation.lat, longitude: filteredLocation.lon, units: units}));
