@@ -2,6 +2,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  font-size: 16px;
 }
 
 :root {
@@ -15,7 +16,6 @@ html, body {
 }
 
 body {
-  font-size: 16px;
   line-height: 1.5;
   font-family: var(--font_primary);
   color: var(--white);
@@ -230,26 +230,18 @@ input::placeholder {
 /* ------------------------------- MEDIA QUERIES -------------------------------------------- */
 
 @media (max-width: 1366px) {
-  aside {
-      width: 15%;
-      clip-path: polygon(50% 0, 100% 0, 100% 80%, 0px 0);
-  }
 }
 
 @media (max-width: 768px) {
-  .fa {
-      font-size: 2.3rem;
-  }
 
-  aside {
-      width: 15%;
-      clip-path: polygon(50% 0, 100% 0, 100% 60%, 0px 0);
-  }
 }
 
 @media (max-width: 600px) {
   html {
-      font-size: 12px;
+      font-size: 0.75rem;
+  }
+  .App {
+    margin: 0rem 2rem;
   }
   main {
       padding: 0 30px;
@@ -263,26 +255,27 @@ input::placeholder {
       max-width: 150px;
   }
 
-  .measurement-container {
-      display: flex;
-      justify-content: center;
+  .input_container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4rem;
   }
 
-  #location-container {
-      margin-top: 40px;
+  nav {
+    display: flex;
+    justify-content: center;
+  }
+
+  .current-weather-parent {
+    margin-top: 7rem;
   }
 
   .input_location {
       height: 40px;
   }
 
-  .fa {
-      font-size: 1.7rem;
-  }
-
-  aside {
-      padding: 20px 10px 0 0;
-      width: 15%;
-      clip-path: polygon(50% 0, 100% 0, 100% 60%, 0px 0);
+  .forecast_table {
+    max-width: 100%;
+    margin-top: 5rem;
   }
 }
