@@ -53,6 +53,7 @@ export const Weather = () => {
           dispatch(fetchWeatherData({latitude: filteredLocation.lat, longitude: filteredLocation.lon, units: units}));
         } catch(err) {
           console.error("There was an error fetching location coordinates");
+          alert("There was an error finding your requested location. Apologies, but for now, try again with the first letter capitalized.")
         }
 
       }
@@ -188,7 +189,7 @@ export const Weather = () => {
                     <label>
                         <input className="input_location" placeholder="Choose Location" onChange={handleInputChange} />
                     </label>
-                    <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation, preferredUnits)}><FaSearchLocation /></button>
+                    <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation, preferredUnits)}><FaSearchLocation /> <span>Search</span></button>
                 </div>
                 <nav>
                     <button 
