@@ -188,7 +188,7 @@ export const Weather = () => {
                     <label>
                         <input className="input_location" placeholder="Choose Location" onChange={handleInputChange} />
                     </label>
-                    <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation, preferredUnits)}><FaSearchLocation /></button>
+                    <button className="submit_location" type="button" onClick={() => fetchLocationCoordinates(typedLocation, preferredUnits)}><FaSearchLocation /> <span>Search</span></button>
                 </div>
                 <nav>
                     <button 

@@ -78,6 +78,8 @@ ul {
 }
 
 .input_container {
+  display: flex;
+  justify-content: center;
   margin-bottom: 2rem;
 }
 
@@ -155,15 +157,19 @@ input::placeholder {
 }
 
 .submit_location {
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
-  font-size: 1.3rem;
   transition: .4s;
+}
+.submit_location svg {
+  margin-right: 0.25rem;
 }
 
 .submit_location:hover {
-  transform: scale(1.3);
-  transition: .4s;
+  transform: scale(1.2);
+  transition: .2s;
 }
 
 .error_city {
@@ -282,12 +288,6 @@ li:last-child {
       max-width: 150px;
   }
 
-  .input_container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 4rem;
-  }
-
   .save-location-container {
     font-size: 1rem;
   }
@@ -303,6 +303,10 @@ li:last-child {
 
   .input_location {
       height: 40px;
+  }
+
+  .input_container {
+    margin-bottom: 4rem;
   }
 
   .forecast_table {
