@@ -5,6 +5,7 @@ const initialState = {
   gpsLocation: '',
   currentWeather: [],
   forecasts: [],
+  theme: 'sunny',
   status: 'idle',
   error: null
 }
@@ -80,6 +81,23 @@ const convertWeatherData = (currentWeatherData, forecastData) => {
   };
 }
 
+// const handleWeatherTheme = () => {
+//   const weatherType = currentWeather.weatherType;
+//   console.log(weatherType);
+//   if (weatherType === 'Clouds' || 'Fog') {
+//       setWeatherTheme('cloudy')
+//   }
+//   else if (weatherType === 'Rain' || 'Mist'){
+//       setWeatherTheme('rainy')
+//   }
+//   else if (weatherType === 'Snow') {
+//       setWeatherTheme('snowy')
+//   }
+//   else {
+//       setWeatherTheme('sunny')
+//   }
+// }
+
 export const locationSlice = createSlice({
   name: 'location',
   initialState,
@@ -94,6 +112,7 @@ export const locationSlice = createSlice({
       state.currentLocation = action.payload.currentWeather.name
       state.currentWeather = action.payload.currentWeather
       state.forecasts = action.payload.forecast
+      state.theme = action.payload.currentWeather.weatherType
     })
     .addCase(fetchWeatherData.rejected, (state, action) => {
       state.status = 'failed'

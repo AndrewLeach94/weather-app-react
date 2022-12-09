@@ -9,6 +9,7 @@ html, body {
   --font_primary: 'Cabin', sans-serif;
   --white: whitesmoke;
   --grey: #f5f5f54d;
+  --dark-overlay: #00000085;
   --background_sunny: linear-gradient(144deg, rgba(0, 107, 193, 0.85) 0%, rgba(255,255,255,0.35) 85%), url(images/sunny.webp);
   --background_cloudy: linear-gradient(144deg, rgba(11,11,11,0.8) 0%, rgba(255,255,255,0.4) 80%), url(images/clouds.webp);
   --background_rainy: linear-gradient(144deg, rgba(11,11,11,0.80) 0%, rgba(255,255,255, 0.6) 100%), url(images/rain.webp);
@@ -19,8 +20,6 @@ body {
   line-height: 1.5;
   font-family: var(--font_primary);
   color: var(--white);
-  background: var(--background_sunny);
-  background-attachment: fixed;
 }
 
 button {
@@ -35,8 +34,26 @@ ul {
   margin: 0;
 }
 
-.App {
-  margin-left: 8.75rem;
+.App-body {
+  padding: 0rem 2rem 0rem 8.75rem;
+  background-attachment: fixed;
+  height: 100vh;
+}
+
+.sunny {
+  background: var(--background_sunny);
+}
+
+.cloudy {
+  background: var(--background_cloudy);
+}
+
+.rainy {
+  background: var(--background_rainy);
+}
+
+.snowy {
+  background: var(--background_snowy);
 }
 
 .loading-animation-container {
@@ -65,7 +82,7 @@ ul {
 }
 
 .location-container {
-  margin: 2rem 0 3rem 0;
+  padding: 2rem 0 3rem 0;
 }
 
 .input_location {
@@ -197,18 +214,27 @@ input::placeholder {
   align-items: center;
   border-bottom: solid 1px var(--grey);
   display: flex;
-  padding-bottom: 1.5rem;
+  padding: 1.5rem 2.5rem;
   justify-content: space-between;
-  margin-bottom: 2.75rem;
 }
 
 .forecast_item-temp {
   font-size: 1.8rem;
 }
 
-.forecast_table {
-  max-width: 50vw;
-  margin-bottom: 2rem;
+.forecast_container {
+  max-width: 80vw;
+  overflow-y: scroll;
+  height: 65vh;
+  background: var(--dark-overlay);
+  padding: 1.5 1.5rem 0rem 1.5rem;
+  border-radius: 10px;
+  backdrop-filter: blur(16px);
+}
+
+li:last-child {
+  border-bottom: 0;
+  margin-bottom: 0rem;
 }
 /* ------------------------------- ANIMATIONS  -------------------------------------------- */
 
@@ -224,7 +250,10 @@ input::placeholder {
 
 /* ------------------------------- MEDIA QUERIES -------------------------------------------- */
 
-@media (max-width: 1366px) {
+@media (min-width: 1400px) {
+  .forecast_container {
+    max-width: 60vw;
+  }
 }
 
 @media (max-width: 768px) {
@@ -235,7 +264,7 @@ input::placeholder {
   html {
       font-size: 0.75rem;
   }
-  .App {
+  .App-body {
     margin: 0rem 2rem;
   }
   h1 {
