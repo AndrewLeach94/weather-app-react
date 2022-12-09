@@ -1,13 +1,17 @@
 import React from 'react';
-import { Location } from './features/location/Location'
+import { Weather } from './features/location/Weather'
+import { Provider } from 'react-redux';
+import store from './app/store';
 import './App.css';
 
 function App() {
 
   return (
-    <div className="App">
-      <Location />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Weather />
+      </div>
+    </Provider>
   );
 }
 
