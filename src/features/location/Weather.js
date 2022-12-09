@@ -85,6 +85,9 @@ export const Weather = () => {
             setWeatherBackground('rainy') 
         }
         else if (theme === 'Mist'){
+            setWeatherBackground('rainy') 
+        }
+        else if (theme === 'Fog'){
             setWeatherBackground('cloudy') 
         }
         else if (theme === 'Snow') {
