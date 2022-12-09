@@ -8,8 +8,6 @@ export const Weather = () => {
     const locationStatus = useSelector(state => state.weather.status);
     const currentWeather = useSelector(state => state.weather.currentWeather);
     const forecasts = useSelector(state => state.weather.forecasts);
-    const theme = useSelector(state => state.weather.theme);
-
     const error = useSelector(state => state.weather.error);
     const defaultLocation = localStorage.defaultLocation;
     const dispatch = useDispatch();
@@ -78,8 +76,8 @@ export const Weather = () => {
         fetchLocationCoordinates(currentLocation, 'imperial');
     }
 
-    const handleWeatherTheme = (theme) => {
-        console.log(theme);
+    const handleWeatherTheme = () => {
+        const theme = currentWeather.weatherType;
         if (theme === 'Clouds' ) {
             setWeatherBackground('cloudy') 
         }
@@ -108,7 +106,7 @@ export const Weather = () => {
         if (locationStatus === 'idle') {
             getUserGpsLocation();
         }
-        handleWeatherTheme(theme);
+        handleWeatherTheme();
     });
 
     let pageContent = () => {

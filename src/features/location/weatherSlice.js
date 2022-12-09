@@ -5,7 +5,6 @@ const initialState = {
   gpsLocation: '',
   currentWeather: [],
   forecasts: [],
-  theme: 'sunny',
   status: 'idle',
   error: null
 }
@@ -80,23 +79,6 @@ const convertWeatherData = (currentWeatherData, forecastData) => {
     forecast: formattedForecastData
   };
 }
-
-// const handleWeatherTheme = () => {
-//   const weatherType = currentWeather.weatherType;
-//   console.log(weatherType);
-//   if (weatherType === 'Clouds' || 'Fog') {
-//       setWeatherTheme('cloudy')
-//   }
-//   else if (weatherType === 'Rain' || 'Mist'){
-//       setWeatherTheme('rainy')
-//   }
-//   else if (weatherType === 'Snow') {
-//       setWeatherTheme('snowy')
-//   }
-//   else {
-//       setWeatherTheme('sunny')
-//   }
-// }
 
 export const locationSlice = createSlice({
   name: 'location',
