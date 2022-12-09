@@ -53,7 +53,7 @@ export const Weather = () => {
           dispatch(fetchWeatherData({latitude: filteredLocation.lat, longitude: filteredLocation.lon, units: units}));
         } catch(err) {
           console.error("There was an error fetching location coordinates");
-          alert("There was an error fetching location coordinates. Apologies, but for now, please ensure the first letter is capitalized.")
+          alert("There was an error finding your requested location. Apologies, but for now, try again with the first letter capitalized.")
         }
 
       }
