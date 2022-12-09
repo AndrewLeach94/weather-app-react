@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchWeatherData } from './weatherSlice';
 import { FaSearchLocation } from 'react-icons/fa';
 
-export const Weather = ({ weather }) => {
+export const Weather = () => {
     const currentLocation = useSelector(state => state.weather.currentLocation);
     const locationStatus = useSelector(state => state.weather.status);
     const currentWeather = useSelector(state => state.weather.currentWeather);
@@ -59,11 +59,9 @@ export const Weather = ({ weather }) => {
     const toggleLocationDefault = () => {
         if (defaultToggle === 'addDefault') {
             localStorage.setItem('defaultLocation', currentLocation);
-            // dispatch(setLocationDefault(currentLocation));
             setDefaultToggle('removeDefault');
         } else {
             localStorage.removeItem('defaultLocation');
-            // dispatch(setLocationDefault(''));
             setDefaultToggle('addDefault');
         }
     }

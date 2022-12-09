@@ -56,7 +56,6 @@ const convertWeatherData = (currentWeatherData, forecastData) => {
       return formattedData;
     }
     const formattedData = formatData(forecast);
-    console.log(formattedData);
     return formattedData;
   }
 
@@ -68,8 +67,6 @@ const convertWeatherData = (currentWeatherData, forecastData) => {
   const weatherType =  currentWeatherData.weather[0].main;
   const windSpeed =  formatWind(currentWeatherData.wind.speed);
   const formattedForecastData = formatHourlyForecast(forecastData.list);
-
-  console.log(formattedForecastData);
 
   return {
     currentWeather: {
