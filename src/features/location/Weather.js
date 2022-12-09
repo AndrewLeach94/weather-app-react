@@ -90,19 +90,19 @@ export const Weather = () => {
     let pageContent = () => {
         if (locationStatus === 'idle') {
             return(
-                <h1>Status: Idle</h1>
+                <h1>Probably waiting for permission to use your GPS coordinates... :)</h1>
             )
         } 
         else if (locationStatus === 'loading') {
             return(
-                <h1>Status: Loading</h1>
+                <h1>Loading...</h1>
 
             )
         } 
 
         else if (locationStatus === 'pending') {
             return(
-                <h1>Status: Pending</h1>
+                <h1>Waiting for data...</h1>
             )
         } 
         else if (locationStatus === 'completed' && viewing === 'currentWeather') {

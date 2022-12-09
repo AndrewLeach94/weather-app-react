@@ -238,6 +238,9 @@ input::placeholder {
   .App {
     margin: 0rem 2rem;
   }
+  h1 {
+    font-size: 2rem;
+  }
   main {
       padding: 0 30px;
       align-items: center;
